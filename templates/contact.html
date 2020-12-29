@@ -31,6 +31,16 @@
 
 <body>
 
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-success" role="alert">
+		{{message}} <a href="{{url_for('index')}}" class="alert-link">Go to home page</a>.
+	  </div>
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
+
 
 	<div class="container-contact100">
 		<div class="contact100-map" id="google_map" data-map-x="40.722047" data-map-y="-73.986422"

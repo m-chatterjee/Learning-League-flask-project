@@ -1,17 +1,18 @@
-from flask import Flask,render_template,url_for,redirect,request,jsonify
+from flask import Flask,render_template,url_for,redirect,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from forms import ContactForm,ApplyForm
-import stripe 
-
-   
+import stripe
+import smtplib
+import os
+ 
 app=Flask(__name__)
 
 stripe.api_key = 'sk_test_51I0BPPJ7NR1mciwGs1cjsPklBAus6sNI0ApsFygdCeKozQunJDQW0YHwbvYx7smYPyy5SLJM5FLzCzOHVrmguVjL007kTG599k'
 DOMAIN = 'http://localhost:5000'
 app.config['SECRET_KEY']='testkey'
 
-DB_URL = 'postgres://dumcgckialjrcn:71b308b2ce0ee4228e98305fd4d8f39b29e027e9754aca7189aa074d400902e5@ec2-34-200-181-5.compute-1.amazonaws.com:5432/d43t7i91ultdof'
+DB_URL = os.getenv('DB_URL')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -85,13 +86,20 @@ def index():
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('payment')) 
+        import re
+        def MagicString(str):
+            return re.findall(r'\S+', str)
+        temp=MagicString(name)
+        name=temp[0]
+        
+
+        return redirect(f'/payment:{name},{email}') 
 
     return render_template("index.html",form=form)
 
-@app.route('/payment',methods=['GET','POST'])
-def payment():
-    return render_template('payment.html')
+@app.route('/payment:<string:name>,<string:email>',methods=['GET','POST'])
+def payment(name,email):
+    return render_template('payment.html',name=name,email=email)
 
 
 @app.route('/contact',methods=['GET','POST'])
@@ -109,20 +117,51 @@ def contact():
         db.session.add(student_contact)
         db.session.commit()
 
-        return redirect(url_for('index'))
+        flash(f"Thank you {name}, \n \t\t Your message is successfully received. Your feedback is valuable to us.")
+
+        
     return render_template('contact.html',form=form)
 
-@app.route('/thankyou')
-def thankyou():
-    return render_template('thankyou.html')
+@app.route('/thankyou:<string:name>,<string:email>')
+def thankyou(name,email):
+    try:
+        user_email=email
+
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.base import MIMEBase
+        
+
+        msg = MIMEMultipart()
+        msg['From'] = 'dev.mainak.chatterjee@gmail.com'
+        msg['To'] = user_email
+        msg['Subject'] = 'Learning League Confirmation'
+
+        body = f"""Hello {name},\n \t \t 
+        Thank you for your trust. You are successfully enrolled in Learning League. 
+        We will send you further details shortly."""
+        msg.attach(MIMEText(body,'plain'))
+
+        text = msg.as_string()
+    
+        server=smtplib.SMTP('smtp.gmail.com',587)
+        server.starttls()
+        server.login('dev.mainak.chatterjee@gmail.com',os.getenv('PASSWORD_DEV_EMAIL'))
+        server.sendmail('dev.mainak.chatterjee@gmail.com',user_email,text)
+        server.quit()
+
+        return render_template('thankyou.html',name=name,email=email)
+    
+    except Exception as e:
+        redirect(url_for('cancel'))
 
 @app.route('/cancel')
 def cancel():
     return render_template('cancel.html')
 
 
-@app.route('/create-checkout-session',methods=['POST'])
-def create_checkout_session():
+@app.route('/create-checkout-session:<string:name>,<string:email>',methods=['POST'])
+def create_checkout_session(name,email):
     try:
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -140,7 +179,7 @@ def create_checkout_session():
                 },
             ],
             mode='payment',
-            success_url=DOMAIN + '/thankyou',
+            success_url=DOMAIN + f'/thankyou:{name},{email}',
             cancel_url=DOMAIN + '/cancel',
         )
         return jsonify({'id': checkout_session.id})

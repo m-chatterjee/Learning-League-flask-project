@@ -10,7 +10,7 @@
     <title>Just one step more</title>
 </head>
 <body>
-
+    
     <div class="jumbotron">
         <a id="checkout-button" class="btn btn-outline-success btn-lg">Pay</a>
     </div>
@@ -23,7 +23,7 @@
     var stripe = Stripe("pk_test_51I0BPPJ7NR1mciwGSMFMwCtlG1M1Y6hTDHSOz9lj5X46VNJqPuTTBMMZbwB15nsDMHa8MB3hMA9zEz1R2Vasrq0m00Z6cprMDL");
     var checkoutButton = document.getElementById("checkout-button");
     checkoutButton.addEventListener("click", function () {
-      fetch("/create-checkout-session", {
+      fetch("/create-checkout-session:{{name}},{{email}}", {
         method: "POST",
       })
         .then(function (response) {
