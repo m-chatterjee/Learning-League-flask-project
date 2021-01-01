@@ -150,7 +150,7 @@ def thankyou(name,email):
         server.sendmail('dev.mainak.chatterjee@gmail.com',user_email,text)
         server.quit()
 
-        return render_template('thankyou.html',name=name,email=email)
+        return render_template('thankyou.html',name=name,email=user_email)
     
     except Exception as e:
         redirect(url_for('cancel'))
@@ -190,3 +190,5 @@ def create_checkout_session(name,email):
 
 if __name__=="__main__":
     app.run(debug=True)
+    
+    
