@@ -1,126 +1,185 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %} Home {% endblock %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link href="../static/css/scrolling-nav.css" rel="stylesheet">
+  <!-- Optional JavaScript; choose one of the two! -->
 
-{% block content %}
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    -->
 
 
-<header class="bg-dark text-white" id="page-top">
-  <div class="container text-center">
-    <h1>Welcome to Learning League</h1>
-    <p class="lead">A platform to enhance your knowledge with the best teachers of India</p>
-    <a class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#staticBackdrop">Apply</a>
-  </div>
-</header>
+  <script src="../static/js/scrolling-nav.js"></script>
+  <title>Home</title>
+</head>
 
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Apply here</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="{{url_for('index')}}">Learning League</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>
+        </ul>
       </div>
-      <div class="modal-body">
-        <form method="POST">
+    </div>
+  </nav>
+
+  <header class="bg-dark text-white" id="page-top">
+    <div class="container text-center">
+      <h1>Welcome to Learning League</h1>
+      <p class="lead">A platform to enhance your knowledge with the best teachers of India</p>
+      <a class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#staticBackdrop">Apply</a>
+    </div>
+  </header>
+
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Apply here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
             {{form.hidden_tag()}}
 
-            <div class="form-group"> 
-                {{form.name.label}} 
-                {{form.name(class="form-control")}}
+            <div class="form-group">
+              {{form.name.label}}
+              {{form.name(class="form-control")}}
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.email.label}}
               {{form.email(class="form-control",type="email")}}
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.phone.label}}
               {{form.phone(class="form-control")}}
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.dob.label}}
               {{form.dob(class="form-control",type="date")}}
             </div>
-            <div class="custom-control custom-radio custom-control-inline"> 
+            <div class="custom-control custom-radio custom-control-inline">
               {{form.gender.label}}
               {{form.gender()}}
-              
-               
+
+
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.school.label}}
               {{form.school(class="form-control")}}
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.subj.label}}
               {{form.subj(class="custom-select")}}
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.marks.label}}
               {{form.marks(class="form-control",type="number")}}
             </div>
-            <div class="form-group"> 
+            <div class="form-group">
               {{form.total_marks.label}}
               {{form.total_marks(class="form-control",type="number")}}
             </div>
 
-          <div class="modal-footer">
-            {{form.Submit(class="btn btn-outline-success")}}
-          </div>
+            <div class="modal-footer">
+              {{form.Submit(class="btn btn-outline-success")}}
+            </div>
+        </div>
+        </form>
       </div>
-      </form>
     </div>
   </div>
-</div>
 
 
-<section id="about">
+  <section id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2>About this page</h2>
+          <p class="lead">Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Beatae animi libero sed
+            voluptates magnam reprehenderit tempore laborum
+            aperiam quos eveniet velit maiores, quam quidem iste
+            quo soluta molestias natus consectetur?</p>
+          <ul>
+            <li>Lorem ipsum dolor sit amet consectetur.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <h2>Services we offer</h2>
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita
+            quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore
+            ut
+            velit dignissimos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="jumbotron container p-3 mb-2 bg-white text-dark col-lg-8 mx-auto">
+      <h1 class="display-5">Contact Us</h1>
+      <p class="lead">For any question,complaint or feedback you can contact us. Just fill the form and write your
+        query.
+      </p>
+      <hr class="my-4">
+      <p class="lead">We will get in touch with you via email. Your feedback is valuable to us.</p>
+      <a class="btn btn-primary btn-lg" href="{{url_for('contact')}}" role="button">Write to us</a>
+    </div>
+  </section>
+
+    <!-- Footer -->
+<footer class="py-5 bg-dark">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto">
-        <h2>About this page</h2>
-        <p class="lead">Lorem ipsum dolor sit amet consectetur 
-          adipisicing elit. Beatae animi libero sed 
-          voluptates magnam reprehenderit tempore laborum 
-          aperiam quos eveniet velit maiores, quam quidem iste 
-          quo soluta molestias natus consectetur?</p>
-        <ul>
-          <li>Lorem ipsum dolor sit amet consectetur.</li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit?</li>
-        </ul>
-      </div>
-    </div>
+    <p class="m-0 text-center text-white">Copyright &copy; No one </p>
   </div>
-</section>
+  <!-- /.container -->
+</footer>
 
-<section id="services" class="bg-light">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto">
-        <h2>Services we offer</h2>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita
-          quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut
-          velit dignissimos.</p>
-      </div>
-    </div>
-  </div>
-</section>
+</body>
 
-<section id="contact">
-  <div class="jumbotron container p-3 mb-2 bg-white text-dark col-lg-8 mx-auto">
-    <h1 class="display-5">Contact Us</h1>
-    <p class="lead">For any question,complaint or feedback you can contact us. Just fill the form and write your query.
-    </p>
-    <hr class="my-4">
-    <p class="lead">We will get in touch with you via email. Your feedback is valuable to us.</p>
-    <a class="btn btn-primary btn-lg" href="{{url_for('contact')}}" role="button">Write to us</a>
-  </div>
-</section>
-
-
-
-{% endblock %}
+</html>

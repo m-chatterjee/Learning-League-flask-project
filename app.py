@@ -5,8 +5,11 @@ from forms import ContactForm,ApplyForm
 import stripe
 import smtplib
 import os
+from flask_login import LoginManager,UserMixin,login_required,login_user,logout_user
  
 app=Flask(__name__)
+
+login_manager=LoginManager()
 
 stripe.api_key = 'sk_test_51I0BPPJ7NR1mciwGs1cjsPklBAus6sNI0ApsFygdCeKozQunJDQW0YHwbvYx7smYPyy5SLJM5FLzCzOHVrmguVjL007kTG599k'
 DOMAIN = 'http://localhost:5000'
@@ -20,6 +23,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 Migrate(app,db)
+
+login_manager.init_app(app)
+login_manager.login_view='index'
+
+
 
 class StudentContact(db.Model):
     
@@ -37,7 +45,11 @@ class StudentContact(db.Model):
         self.phone=phone
         self.msg=msg
 
-class Apply(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    return Apply.query.get(user_id)
+
+class Apply(db.Model,UserMixin):
     
     __tablename__='applied_users'
     
@@ -51,7 +63,6 @@ class Apply(db.Model):
     subj=db.Column(db.Text)
     marks=db.Column(db.Text)
     total_marks=db.Column(db.Text) 
-    
 
     def __init__(self,name,email,phone,dob,gender,school,subj,marks,total_marks):
         self.name=name
@@ -63,6 +74,9 @@ class Apply(db.Model):
         self.subj=subj
         self.marks=marks
         self.total_marks=total_marks
+    
+    def get_id(self):
+            return self.user_id
 
 
 @app.route('/',methods=['GET','POST'])
@@ -86,18 +100,28 @@ def index():
         db.session.add(user)
         db.session.commit()
 
+        login_user(user)
+
+        
+
         import re
         def MagicString(str):
             return re.findall(r'\S+', str)
         temp=MagicString(name)
         name=temp[0]
+
+        next=request.args.get('next')
+
+        if next==None or not next[0]=='/':
+            next=f'/payment:{name},{email}'
         
 
-        return redirect(f'/payment:{name},{email}') 
+        return redirect(next)
 
     return render_template("index.html",form=form)
 
 @app.route('/payment:<string:name>,<string:email>',methods=['GET','POST'])
+@login_required
 def payment(name,email):
     return render_template('payment.html',name=name,email=email)
 
@@ -123,6 +147,7 @@ def contact():
     return render_template('contact.html',form=form)
 
 @app.route('/thankyou:<string:name>,<string:email>')
+@login_required
 def thankyou(name,email):
     try:
         user_email=email
@@ -150,6 +175,8 @@ def thankyou(name,email):
         server.sendmail('dev.mainak.chatterjee@gmail.com',user_email,text)
         server.quit()
 
+        logout_user()
+
         return render_template('thankyou.html',name=name,email=user_email)
     
     except Exception as e:
@@ -161,6 +188,7 @@ def cancel():
 
 
 @app.route('/create-checkout-session:<string:name>,<string:email>',methods=['POST'])
+@login_required
 def create_checkout_session(name,email):
     try:
         checkout_session = stripe.checkout.Session.create(
@@ -169,10 +197,10 @@ def create_checkout_session(name,email):
                 {
                     'price_data': {
                         'currency': 'inr',
-                        'unit_amount': 2000,
+                        'unit_amount': 10000,
                         'product_data': {
                             'name': 'Learning League',
-                            'images': ['https://i.imgur.com/EHyR2nP.png'],
+                            'images': ['https://source.unsplash.com/240x360/?code,coding'],
                         },
                     },
                     'quantity': 1,

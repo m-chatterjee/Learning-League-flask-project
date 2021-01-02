@@ -12,6 +12,7 @@ wtforms = {extras = ["email"], version = "*"}
 "wtforms.validators" = "*"
 psycopg2 = "*"
 stripe = "*"
+flask-login = "*"
 
 [dev-packages]
 
