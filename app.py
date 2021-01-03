@@ -5,7 +5,8 @@ from forms import ContactForm,ApplyForm
 import stripe
 import smtplib
 import os
-from flask_login import LoginManager,UserMixin,login_required,login_user,logout_user,current_user
+from flask_login import (LoginManager,UserMixin,login_required,login_user,
+                        logout_user,current_user)
  
 app=Flask(__name__)
 
@@ -221,6 +222,6 @@ def create_checkout_session(name,email):
         return jsonify(error=str(e)), 403
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run(debug=False)
     
     
