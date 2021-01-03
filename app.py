@@ -13,7 +13,7 @@ app=Flask(__name__)
 login_manager=LoginManager()
 
 stripe.api_key = 'sk_test_51I0BPPJ7NR1mciwGs1cjsPklBAus6sNI0ApsFygdCeKozQunJDQW0YHwbvYx7smYPyy5SLJM5FLzCzOHVrmguVjL007kTG599k'
-DOMAIN = 'https://learning-league-flask.herokuapp.com/'
+DOMAIN = 'https://learning-league-flask.herokuapp.com'
 app.config['SECRET_KEY']='testkey'
 
 DB_URL = os.getenv('DB_URL')
