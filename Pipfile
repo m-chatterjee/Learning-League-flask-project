@@ -13,6 +13,7 @@ wtforms = {extras = ["email"], version = "*"}
 psycopg2 = "*"
 stripe = "*"
 flask-login = "*"
+gunicorn = "*"
 
 [dev-packages]
 
