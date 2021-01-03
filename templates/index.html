@@ -5,9 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap CSS -->
+  <link href="../static/css/scrolling-nav.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
     integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link href="../static/css/scrolling-nav.css" rel="stylesheet">
+  
   <!-- Optional JavaScript; choose one of the two! -->
 
   <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
@@ -54,131 +55,138 @@
     </div>
   </nav>
 
-  <header class="bg-dark text-white" id="page-top">
-    <div class="container text-center">
-      <h1>Welcome to Learning League</h1>
-      <p class="lead">A platform to enhance your knowledge with the best teachers of India</p>
-      <a class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#staticBackdrop">Apply</a>
-    </div>
-  </header>
+  
 
-  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Apply here</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <header class="bg-dark text-white" id="page-top">
+      <div class="container text-center">
+        <h1>Welcome to Learning League</h1>
+        <p class="lead">A platform to enhance your knowledge with the best teachers of India</p>
+        <a class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#staticBackdrop">Apply</a>
+      </div>
+    </header>
+
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Apply here</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST">
+              {{form.hidden_tag()}}
+
+              <div class="form-group">
+                {{form.name.label}}
+                {{form.name(class="form-control")}}
+              </div>
+              <div class="form-group">
+                {{form.email.label}}
+                {{form.email(class="form-control",type="email")}}
+              </div>
+              <div class="form-group">
+                {{form.phone.label}}
+                {{form.phone(class="form-control")}}
+              </div>
+              <div class="form-group">
+                {{form.dob.label}}
+                {{form.dob(class="form-control",type="date")}}
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                {{form.gender.label}}
+                {{form.gender()}}
+
+
+              </div>
+              <div class="form-group">
+                {{form.school.label}}
+                {{form.school(class="form-control")}}
+              </div>
+              <div class="form-group">
+                {{form.subj.label}}
+                {{form.subj(class="custom-select")}}
+              </div>
+              <div class="form-group">
+                {{form.marks.label}}
+                {{form.marks(class="form-control",type="number")}}
+              </div>
+              <div class="form-group">
+                {{form.total_marks.label}}
+                {{form.total_marks(class="form-control",type="number")}}
+              </div>
+
+              <div class="modal-footer">
+                {{form.Submit(class="btn btn-outline-success")}}
+              </div>
+          </div>
+          </form>
         </div>
-        <div class="modal-body">
-          <form method="POST">
-            {{form.hidden_tag()}}
-
-            <div class="form-group">
-              {{form.name.label}}
-              {{form.name(class="form-control")}}
-            </div>
-            <div class="form-group">
-              {{form.email.label}}
-              {{form.email(class="form-control",type="email")}}
-            </div>
-            <div class="form-group">
-              {{form.phone.label}}
-              {{form.phone(class="form-control")}}
-            </div>
-            <div class="form-group">
-              {{form.dob.label}}
-              {{form.dob(class="form-control",type="date")}}
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              {{form.gender.label}}
-              {{form.gender()}}
-
-
-            </div>
-            <div class="form-group">
-              {{form.school.label}}
-              {{form.school(class="form-control")}}
-            </div>
-            <div class="form-group">
-              {{form.subj.label}}
-              {{form.subj(class="custom-select")}}
-            </div>
-            <div class="form-group">
-              {{form.marks.label}}
-              {{form.marks(class="form-control",type="number")}}
-            </div>
-            <div class="form-group">
-              {{form.total_marks.label}}
-              {{form.total_marks(class="form-control",type="number")}}
-            </div>
-
-            <div class="modal-footer">
-              {{form.Submit(class="btn btn-outline-success")}}
-            </div>
-        </div>
-        </form>
       </div>
     </div>
+
+    <div class="pagebody">
+
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2>About this page</h2>
+            <p class="lead">Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Beatae animi libero sed
+              voluptates magnam reprehenderit tempore laborum
+              aperiam quos eveniet velit maiores, quam quidem iste
+              quo soluta molestias natus consectetur?</p>
+            <ul>
+              <li>Lorem ipsum dolor sit amet consectetur.</li>
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
+              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2>Services we offer</h2>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore,
+              expedita
+              quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel,
+              labore
+              ut
+              velit dignissimos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="bg-light">
+      <div class="jumbotron container p-3 mb-2 bg-white text-dark col-lg-8 mx-auto">
+        <h1 class="display-5">Contact Us</h1>
+        <p class="lead">For any question,complaint or feedback you can contact us. Just fill the form and write your
+          query.
+        </p>
+        <hr class="my-4">
+        <p class="lead">We will get in touch with you via email. Your feedback is valuable to us.</p>
+        <a class="btn btn-primary btn-lg" href="{{url_for('contact')}}" role="button">Write to us</a>
+      </div>
+    </section>
+
   </div>
 
-
-  <section id="about">
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>About this page</h2>
-          <p class="lead">Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Beatae animi libero sed
-            voluptates magnam reprehenderit tempore laborum
-            aperiam quos eveniet velit maiores, quam quidem iste
-            quo soluta molestias natus consectetur?</p>
-          <ul>
-            <li>Lorem ipsum dolor sit amet consectetur.</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit?</li>
-          </ul>
-        </div>
-      </div>
+      <p class="m-0 text-center text-white">Copyright &copy; No one </p>
     </div>
-  </section>
-
-  <section id="services" class="bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>Services we offer</h2>
-          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita
-            quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore
-            ut
-            velit dignissimos.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="jumbotron container p-3 mb-2 bg-white text-dark col-lg-8 mx-auto">
-      <h1 class="display-5">Contact Us</h1>
-      <p class="lead">For any question,complaint or feedback you can contact us. Just fill the form and write your
-        query.
-      </p>
-      <hr class="my-4">
-      <p class="lead">We will get in touch with you via email. Your feedback is valuable to us.</p>
-      <a class="btn btn-primary btn-lg" href="{{url_for('contact')}}" role="button">Write to us</a>
-    </div>
-  </section>
-
-    <!-- Footer -->
-<footer class="py-5 bg-dark">
-  <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; No one </p>
-  </div>
-  <!-- /.container -->
-</footer>
+    <!-- /.container -->
+  </footer>
 
 </body>
 

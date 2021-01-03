@@ -5,7 +5,7 @@ from forms import ContactForm,ApplyForm
 import stripe
 import smtplib
 import os
-from flask_login import LoginManager,UserMixin,login_required,login_user,logout_user
+from flask_login import LoginManager,UserMixin,login_required,login_user,logout_user,current_user
  
 app=Flask(__name__)
 
@@ -26,7 +26,6 @@ Migrate(app,db)
 
 login_manager.init_app(app)
 login_manager.login_view='index'
-
 
 
 class StudentContact(db.Model):
@@ -76,12 +75,16 @@ class Apply(db.Model,UserMixin):
         self.total_marks=total_marks
     
     def get_id(self):
-            return self.user_id
+        return self.user_id
 
 
 @app.route('/',methods=['GET','POST'])
 def index():
     form=ApplyForm()
+
+    if current_user.is_authenticated:
+        logout_user()
+
 
     if form.validate_on_submit():
         
@@ -102,8 +105,6 @@ def index():
 
         login_user(user)
 
-        
-
         import re
         def MagicString(str):
             return re.findall(r'\S+', str)
@@ -119,6 +120,9 @@ def index():
         return redirect(next)
 
     return render_template("index.html",form=form)
+
+
+
 
 @app.route('/payment:<string:name>,<string:email>',methods=['GET','POST'])
 @login_required
